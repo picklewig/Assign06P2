@@ -2,53 +2,48 @@
 #include <iostream>
 
 // write definition for bst_insert here
-bool bst_insert(btNode* bst_root, int insInt) {
+bool bst_insert(btNode*& bst_root, int insInt){
     bool inserted = false;
+    btNode* cursor = bst_root;
     if(bst_root == 0){
+        std::cout << "inserting " << insInt << " at root" << std::endl;
         bst_root = new btNode;
         bst_root->data = insInt;
         bst_root->left = bst_root->right = 0;
+        inserted = true;
     }
-    else{
-        btNode** cursor = &bst_root;
-        while(!inserted) {
-            if (insInt == cursor->data) {
-                return false;
-            } else if (insInt < cursor->data) {
-                if (cursor->left == 0) {
-                    cursor->left = new btNode;
-                    cursor->left->data = insInt;
-                    cursor->left->left = cursor->left->right = 0;
-                    inserted = true;
-                } else {
-                    cursor = cursor->left;
-                }
-            } else if (insInt > cursor->data) {
-                if (cursor->right == 0) {
-                    cursor->right = new btNode;
-                    cursor->right->data = insInt;
-                    cursor->right->left = cursor->right->right = 0;
-                    inserted = true;
-                } else {
-                    cursor = cursor->right;
-                }
+    while(!inserted){
+        if(insInt < cursor->data){
+            if(cursor->left != 0){
+                cursor = cursor->left;
+            }
+            else{
+                std::cout << "inserting " << insInt << " at " << cursor->data << "'s left link" << std::endl;
+                cursor->left = new btNode;
+                cursor->left->data = insInt;
+                cursor->left->left = cursor->left->right = 0;
+                inserted = true;
             }
         }
+        else if (insInt > cursor->data){
+            if(cursor->right != 0){
+                cursor = cursor->right;
+            }
+            else{
+                std::cout << "inserting " << insInt << " at " << cursor->data << "'s right link" << std::endl;
+                cursor->right = new btNode;
+                cursor->right->data = insInt;
+                cursor->right->left = cursor->right->right = 0;
+                inserted = true;
+            }
+        }
+        else if(insInt == cursor->data){
+            std::cout << "duplicate value, aborting" << std::endl;
+            return false; //do not insert if insInt already exists
+        }
+        //std::cout << "current root is" << bst_root->data << std::endl;
     }
     return inserted;
-    /*btNode* cursor = bst_root;
-    while(cursor != 0) {
-        if (insInt < cursor->data) {
-            cursor = cursor->left;
-        } else if (insInt > cursor->data) {
-            cursor = cursor->right;
-        } else {
-            return; //do not insert if insInt already exists
-        }
-    }
-    cursor = new btNode;
-    cursor->data = insInt;
-    cursor->left = cursor->right = 0;*/
 }
 // write definition for bst_remove here
 bool bst_remove(btNode*& bst_root,int remInt){

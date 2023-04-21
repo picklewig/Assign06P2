@@ -40,7 +40,7 @@ int bst_size(btNode* bst_root);
 //       data that exists in more general/real-world situations.)
 
 // write prototype for bst_insert here
-bool bst_insert(btNode* bst_root,int insInt);
+bool bst_insert(btNode*& bst_root,int insInt);
 // pre:  bst_root is root pointer of a binary search tree (may be 0 for
 //       empty tree)
 // post: If remInt was in the tree, then remInt has been removed, bst_root
