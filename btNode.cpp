@@ -6,7 +6,6 @@ bool bst_insert(btNode*& bst_root, int insInt){
     bool inserted = false;
     btNode* cursor = bst_root;
     if(bst_root == 0){
-        //std::cout << "inserting " << insInt << " at root" << std::endl;
         bst_root = new btNode;
         bst_root->data = insInt;
         bst_root->left = bst_root->right = 0;
@@ -18,7 +17,6 @@ bool bst_insert(btNode*& bst_root, int insInt){
                 cursor = cursor->left;
             }
             else{
-                //std::cout << "inserting " << insInt << " at " << cursor->data << "'s left link" << std::endl;
                 cursor->left = new btNode;
                 cursor->left->data = insInt;
                 cursor->left->left = cursor->left->right = 0;
@@ -30,7 +28,6 @@ bool bst_insert(btNode*& bst_root, int insInt){
                 cursor = cursor->right;
             }
             else{
-                //std::cout << "inserting " << insInt << " at " << cursor->data << "'s right link" << std::endl;
                 cursor->right = new btNode;
                 cursor->right->data = insInt;
                 cursor->right->left = cursor->right->right = 0;
@@ -38,7 +35,6 @@ bool bst_insert(btNode*& bst_root, int insInt){
             }
         }
         else if(insInt == cursor->data){
-            //std::cout << "duplicate value, aborting" << std::endl;
             break; //do not insert if insInt already exists
         }
     }
@@ -46,53 +42,52 @@ bool bst_insert(btNode*& bst_root, int insInt){
 }
 // write definition for bst_remove here
 bool bst_remove(btNode*& bst_root,int remInt){
-    //std::cout << "rm, ";
     bool removed = false;
     if(bst_root != 0){
-        //std::cout << "node = " << bst_root->data << " target to delete is " << remInt;
         if(remInt < bst_root->data){
-            //std::cout << " going left" << std::endl;
             removed = bst_remove(bst_root->left, remInt);
         }
         else if(remInt > bst_root->data){
-            //std::cout << " going right" << std::endl;
             removed = bst_remove(bst_root->right, remInt);
         }
         else{ //else its equal to remInt, so remove it
-            btNode* old_bst_root = bst_root;
             if(bst_root->left == 0 and bst_root->right == 0){ //no children
+                btNode* old_bst_root = bst_root;
                 bst_root = 0;
-                std::cout << " target node " << remInt << " is now: Empty" << std::endl;
+                delete old_bst_root;
             }
             else if(bst_root->left == 0 and bst_root->right != 0){ //one child cases
+                btNode* old_bst_root = bst_root;
                 bst_root = bst_root->right;
-                std::cout << " target node " << remInt << " is now: " << bst_root->data << std::endl;
+                delete old_bst_root;
             }
             else if(bst_root->right == 0 and bst_root->left != 0){
+                btNode* old_bst_root = bst_root;
                 bst_root = bst_root->left;
-                std::cout << " target node " << remInt << " is now: " << bst_root->data << std::endl;
+                delete old_bst_root;
             }
             else{ //2 children
                 bst_remove_max(bst_root->left, bst_root->data);
-                std::cout << " target node " << remInt << " is now: " << bst_root->data << std::endl;
             }
-            delete old_bst_root;
             removed = true;
         }
     }
     return removed;
 }
 // write definition for bst_remove_max here
-void bst_remove_max(btNode*& bst_root,int& removed){
+bool bst_remove_max(btNode*& bst_root,int& removed){
+    bool rem = false;
     if(bst_root->right == 0){
         removed = bst_root->data;
         btNode* old_bst_root = bst_root;
         bst_root = bst_root->left;
         delete old_bst_root;
+        rem = true;
     }
     else{
-        bst_remove_max(bst_root->right, removed);
+        rem = bst_remove_max(bst_root->right, removed);
     }
+    return rem;
 }
 
 void portToArrayInOrder(btNode* bst_root, int* portArray)

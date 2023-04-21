@@ -57,5 +57,5 @@ bool bst_remove(btNode*& bst_root,int remInt);
 //       the removed item.
 
 // write prototype for bst_remove_max here
-void bst_remove_max(btNode*& bst_root,int& removed);
+bool bst_remove_max(btNode*& bst_root,int& removed);
 #endif
