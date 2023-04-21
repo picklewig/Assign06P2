@@ -1,5 +1,4 @@
 #include "btNode.h"
-#include <iostream>
 
 // write definition for bst_insert here
 bool bst_insert(btNode*& bst_root, int insInt){
